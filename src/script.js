@@ -12,7 +12,7 @@ const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
 // Using geo-location api to access the user location data
-
+// https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API/Using_the_Geolocation_API#examples
 function getUserLocation() {
   function success(position) {
     const { latitude } = position.coords;
