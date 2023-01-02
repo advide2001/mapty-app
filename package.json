@@ -10,8 +10,5 @@
   },
   "devDependencies": {
     "vite": "^4.0.0"
-  },
-  "dependencies": {
-    "leaflet": "^1.9.3"
   }
 }
