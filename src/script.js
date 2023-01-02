@@ -15,9 +15,18 @@ const inputElevation = document.querySelector('.form__input--elevation');
 // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API/Using_the_Geolocation_API#examples
 function getUserLocation() {
   function success(position) {
-    const { latitude } = position.coords;
-    const { longitude } = position.coords;
-    console.log(latitude + ' ' + longitude);
+    const coords = [position.coords.latitude, position.coords.longitude];
+    console.log(coords);
+
+    const map = L.map('map', {
+      center: coords,
+      zoom: 13,
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+      attribution:
+        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+    }).addTo(map);
   }
   function error() {
     alert('Please allow us to access your location!');
