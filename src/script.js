@@ -205,14 +205,15 @@ class App {
 
     this.#workouts.push(workout);
 
-    // Call the render method to render marker on the map
+    // Call the render methods to render workouts on the map and sidebar
     this._renderWorkoutMarker(workout);
     this._renderWorkout(workout);
 
     // Clear the input fields and hide the form
     this._hideForm();
 
-    // Create a marker on the map
+    // Set local storage
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -296,6 +297,10 @@ class App {
         duration: 1,
       },
     });
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
   }
 }
 
