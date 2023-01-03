@@ -2,6 +2,7 @@
 class Workout {
   date = new Date();
   id = new Date().toISOString().slice(-10);
+  clicks = 0;
 
   constructor(coords, distance, duration) {
     this.coords = coords;
@@ -76,6 +77,7 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class App {
   // Properties of the class
   #map;
+  #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
   // Construtor invoked when the page is fully loaded
@@ -83,10 +85,14 @@ class App {
     this._getPosition(); // Fetch user position
 
     // EVENT LISTENERS
+    // Add event listener to listen to submit events on the form in side bar
     form.addEventListener('submit', this._newWorkout.bind(this));
 
     // Add an event listener to listen to the change in type of activity
     inputType.addEventListener('change', this._toggleElevationField);
+
+    // Add event listener to listen to clicks on the activity side bar
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   // Method to fetch user location co-ordinates
@@ -109,7 +115,7 @@ class App {
     // create map using the user location coordinates
     this.#map = L.map('map', {
       center: coords,
-      zoom: 13,
+      zoom: this.#mapZoomLevel,
     });
 
     // add design style to the map
@@ -273,6 +279,23 @@ class App {
         </li>`;
     }
     form.insertAdjacentHTML('afterend', html);
+  }
+
+  _moveToPopup(e) {
+    const workoutElement = e.target.closest('.workout');
+
+    // Guard class - when the list of workouts is empty
+    if (!workoutElement) return;
+
+    const workout = this.#workouts.find(
+      workout => workout.id === workoutElement.dataset.id
+    );
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
   }
 }
 
