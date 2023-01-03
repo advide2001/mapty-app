@@ -2,7 +2,6 @@
 class Workout {
   date = new Date();
   id = new Date().toISOString().slice(-10);
-  clicks = 0;
 
   constructor(coords, distance, duration) {
     this.coords = coords;
@@ -83,6 +82,9 @@ class App {
   // Construtor invoked when the page is fully loaded
   constructor() {
     this._getPosition(); // Fetch user position
+
+    // Get data from local storage
+    this._getLocalStorage(); // Fetch data stored on local storage
 
     // EVENT LISTENERS
     // Add event listener to listen to submit events on the form in side bar
@@ -301,6 +303,14 @@ class App {
 
   _setLocalStorage() {
     localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const localWorkoutData = JSON.parse(localStorage.getItem('workouts'));
+
+    // guard clause -  if the data is undefined do nothing
+    if (!localWorkoutData) return;
+    this.#workouts = localWorkoutData; // Store data in local storage
   }
 }
 
