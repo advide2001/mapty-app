@@ -126,6 +126,11 @@ class App {
         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
     }).addTo(this.#map);
 
+    // Render workouts on the sidebar
+    this.#workouts.forEach(workout => {
+      this._renderWorkoutMarker(workout);
+    });
+
     // handle clicks on the map. map.on is similar to an event listener on the map.
     this.#map.on('click', this._showForm.bind(this));
   }
@@ -311,6 +316,10 @@ class App {
     // guard clause -  if the data is undefined do nothing
     if (!localWorkoutData) return;
     this.#workouts = localWorkoutData; // Store data in local storage
+    // Render workouts on the sidebar
+    this.#workouts.forEach(workout => {
+      this._renderWorkout(workout);
+    });
   }
 }
 
